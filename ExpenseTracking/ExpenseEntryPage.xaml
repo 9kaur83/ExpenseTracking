@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ExpenseTracking.ExpenseEntryPage"
+    Title="Budget Entry Page">
+    <StackLayout Margin="10,35,10,10">
+        <Editor x:Name="name"
+                Text="{Binding Name}"
+                Placeholder="Name:-"
+                HeightRequest="50"
+                Keyboard="Chat"/>
+        <Editor x:Name="amount"
+                Text="{Binding Amount}"
+                Placeholder="Amount:-"
+                HeightRequest="50"
+                Keyboard="Numeric"/>
+        <Picker x:Name="picker" Title="Select a Category"  SelectedItem="{Binding selectedType}">
+        <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Home</x:String>
+                    <x:String>Food</x:String>
+                    <x:String>Entertainment</x:String>
+                    <x:String>Charity</x:String>
+                    <x:String>Auto</x:String>
+                    <x:String>Education</x:String>
+                    <x:String>HealthAndWellness</x:String>
+                    <x:String>Shopping</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <DatePicker Date="{Binding DateOfPurchase}"
+                 Format="MM-dd-yyyy"
+                 Margin="10,10,10,10"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Text="Add Budget"
+                    Clicked="OnSaveButtonClicked"/>
+            <Button Grid.Column="1"
+                    Text="Cancel Budget"
+                    Clicked="OnCancelButtonClicked"/>
+
+        </Grid>
+    </StackLayout>
+</ContentPage>
