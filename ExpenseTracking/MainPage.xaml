@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="ExpenseTracking.MainPage"
-    Title="Budget Entry">
+    Title="Budget Entry"
+              BackgroundColor="LightGray">
     <StackLayout Margin="10,35,10,10">
         <Editor x:Name="budgetInputField"
                 Text="{Binding Text}"
@@ -20,6 +21,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Text="Save Budget"
+                     BackgroundColor="Blue"
                     Clicked="OnSaveButtonClicked"/>
         </Grid>
       

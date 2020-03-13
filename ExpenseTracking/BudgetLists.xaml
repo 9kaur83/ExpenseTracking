@@ -8,11 +8,11 @@
     Title="Expense list">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="+"
-                     Clicked="OnExpenseListAddedClicked" />
+                      Clicked="OnExpenseListAddedClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="White" Padding="5" VerticalOptions="Center">
-            <ListView x:Name="listView"
+        <StackLayout BackgroundColor="LightGray" Padding="5" VerticalOptions="Center">
+            <ListView x:Name="listView"  
               Margin="10" 
               ItemSelected="OnListViewItemSelected">
                 <ListView.ItemTemplate>
@@ -34,6 +34,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Label x:Name="Expense" TextDecorations="Underline" BackgroundColor="Accent" />
+            <Label x:Name="Budget" TextDecorations="Underline" BackgroundColor="Accent"/>
             <Button Text="Add New" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
         </StackLayout>
     </ContentPage.Content>

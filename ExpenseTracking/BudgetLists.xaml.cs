@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static Android.Icu.Text.DateFormat;
 using ExpenseTracking.Models;
+using Field = ExpenseTracking.Models.Field;
 
 namespace ExpenseTracking
 {
@@ -28,38 +29,45 @@ namespace ExpenseTracking
 
             var fields = new List<ExpenseTracking.Models.Field>();
 
-            var files = Directory.EnumerateFiles(App.FolderPath, "*.field.txt");
-            foreach (var filename in files)
+            var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+            if (Directory.Exists(folderPath))
             {
-                var data = File.ReadAllText(filename);
-
-                var values = data.Split(new string[] { "\t"}, StringSplitOptions.None);
-
-                fields.Add(new ExpenseTracking.Models.Field
+                var files = Directory.EnumerateFiles(folderPath, "*.field.txt");
+                foreach (var filename in files)
                 {
-                    Name = values[0],
-                    DateOfPurchase = DateTime.Parse(values[2]),
-                    Amount = Decimal.Parse(values[1]),
-                    itemType = (TypeOfItem)Enum.Parse(typeof(TypeOfItem), values[3])
-                });
+                    var data = File.ReadAllText(filename);
+
+                    var values = data.Split(new string[] { "\t" }, StringSplitOptions.None);
+
+                    fields.Add(new ExpenseTracking.Models.Field
+                    {
+                        Name = values[0],
+                        DateOfPurchase = DateTime.Parse(values[2]),
+                        Amount = Decimal.Parse(values[1]),
+                        itemType = (TypeOfItem)Enum.Parse(typeof(TypeOfItem), values[3])
+                    });
+                }
             }
 
             listView.ItemsSource = fields
                 .OrderBy(d => d.DateOfPurchase)
                 .ToList();
-        }
 
+            string budgetFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".fields.txt");
 
-        async void OnNoteAddedClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new ExpenseEntryPage
+            Decimal expense = 0;
+            foreach(Field field in fields)
             {
-                BindingContext = new ExpenseTracking.Models.Field()
-            });
-        }
+                expense += field.Amount;
+            }
 
-        private async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
+            Expense.Text = "Total Expenses: $" + expense.ToString();
+
+            Budget.Text = "Total Budget for Month: " + File.ReadAllText(budgetFileName);
+        }
+       private async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+       {
             if (e.SelectedItem != null)
             {
                 await Navigation.PushAsync(new ExpenseEntryPage
@@ -67,7 +75,7 @@ namespace ExpenseTracking
                     BindingContext = e.SelectedItem as ExpenseTracking.Models.Field
                 });
             }
-        }
+       }
 
         private async void OnExpenseListAddedClicked(object sender, EventArgs e)
         {

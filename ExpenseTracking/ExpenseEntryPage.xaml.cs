@@ -34,7 +34,11 @@ namespace ExpenseTracking
 
             {
                 // Append MonthYear to folder name
-                var filename = Path.Combine(App.FolderPath, $"{Path.GetRandomFileName()}.field.txt");
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                Directory.CreateDirectory(folderPath);
+
+                var filename =Path.Combine(folderPath, $"{Path.GetRandomFileName()}.field.txt");
 
                 string data = field.Name + "\t" + field.Amount.ToString() + "\t" + field.DateOfPurchase.ToString() + "\t" + field.selectedType;
 

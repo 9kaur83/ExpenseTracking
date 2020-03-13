@@ -5,8 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="ExpenseTracking.ExpenseEntryPage"
-    Title="Budget Entry Page">
-    <StackLayout Margin="10,35,10,10">
+    Title="Expense Entry Page"
+             BackgroundColor="LightGray">
+   <StackLayout Margin="10,35,10,10">
         <Editor x:Name="name"
                 Text="{Binding Name}"
                 Placeholder="Name:-"
@@ -17,7 +18,7 @@
                 Placeholder="Amount:-"
                 HeightRequest="50"
                 Keyboard="Numeric"/>
-        <Picker x:Name="picker" Title="Select a Category"  SelectedItem="{Binding selectedType}">
+        <Picker x:Name="picker" Title="Select a Category"  SelectedItem="{Binding selectedType}"  HeightRequest="50">
         <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Home</x:String>
@@ -33,15 +34,18 @@
         </Picker>
         <DatePicker Date="{Binding DateOfPurchase}"
                  Format="MM-dd-yyyy"
-                 Margin="10,10,10,10"/>
+                 Margin="10,10,10,10"
+                     HeightRequest="50"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Text="Add Budget"
+            <Button Text="Add"
+                     BackgroundColor="Blue"
                     Clicked="OnSaveButtonClicked"/>
             <Button Grid.Column="1"
-                    Text="Cancel Budget"
+                    Text="Cancel"
+                    BackgroundColor="Blue"
                     Clicked="OnCancelButtonClicked"/>
 
         </Grid>
