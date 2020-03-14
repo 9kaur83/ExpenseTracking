@@ -13,18 +13,27 @@ using Xamarin.Forms.Xaml;
 
 namespace ExpenseTracking
 {
-
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExpenseEntryPage : ContentPage
     {
-        public ExpenseEntryPage()
+        readonly DateTime MonthYear;
+
+        public ExpenseEntryPage(DateTime monthYear)
         {
             InitializeComponent();
+
+            this.MonthYear = monthYear;
         }
 
         protected override void OnAppearing()
         {
             NavigationPage.SetHasBackButton(this, false);
+
+            DateTime minDate = new DateTime(MonthYear.Year, MonthYear.Month, 1);
+            DateTime maxDate = minDate.AddMonths(1).AddDays(-1);
+           
+            SelectedDay.SetValue(DatePicker.MaximumDateProperty, maxDate);
+            SelectedDay.SetValue(DatePicker.MinimumDateProperty, minDate);
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -34,7 +43,7 @@ namespace ExpenseTracking
 
             {
                 // Append MonthYear to folder name
-                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), field.MonthYear.Date.Year.ToString() + field.MonthYear.Date.Month.ToString());
 
                 Directory.CreateDirectory(folderPath);
 

@@ -32,10 +32,12 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <DatePicker Date="{Binding DateOfPurchase}"
+        <DatePicker x:Name="SelectedDay"
+                 Date="{Binding DateOfPurchase}"
                  Format="MM-dd-yyyy"
-                 Margin="10,10,10,10"
-                     HeightRequest="50"/>
+                 MaximumDate="{Binding MaximumDate}"
+                 MinimumDate="{Binding MinimumDate}"                  
+                 HeightRequest="50"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

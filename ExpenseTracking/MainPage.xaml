@@ -8,25 +8,20 @@
     Title="Budget Entry"
               BackgroundColor="LightGray">
     <StackLayout Margin="10,35,10,10">
+        <DatePicker IsEnabled="True" Format="MM-yyyy" x:Name="monthYear" DateSelected="monthYear_DateSelected" />
         <Editor x:Name="budgetInputField"
                 Text="{Binding Text}"
                 Placeholder="Enter Monthly Budget"
                 HeightRequest="50"
                 Keyboard="Numeric"/>
-        <DatePicker IsEnabled="False" Format="MM-yyyy"
-                 Margin="10,35,10,10"/>
-  
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Text="Save Budget"
+            <Button Text="Select Month"
                      BackgroundColor="Blue"
                     Clicked="OnSaveButtonClicked"/>
         </Grid>
-      
-
-
     </StackLayout>
 </ContentPage>
 

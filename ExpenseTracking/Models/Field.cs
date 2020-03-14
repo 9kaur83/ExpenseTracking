@@ -27,12 +27,14 @@ namespace ExpenseTracking.Models
 
     class Field
     {
-        public Field()
+        public Field(DateTime monthYear)
         {
             DateOfPurchase = DateTime.Now;
+            this.MonthYear = monthYear;
         }
 
         public string Name { get; set; }
+        public DateTime MonthYear { get; }
         public decimal Amount { get; set; }
 
         public string DateOfPurchaseString
@@ -40,6 +42,23 @@ namespace ExpenseTracking.Models
             get
             {
                 return DateOfPurchase.ToString("MM-dd-yyyy");
+            }
+        }
+
+        public DateTime MinimumDate
+        {
+            get
+            {
+                return new DateTime(MonthYear.Year, MonthYear.Month, 1);
+            }
+        }
+
+        public DateTime MaximumDate
+        {
+            get
+            {
+                DateTime maxDate = MinimumDate.AddMonths(1).AddDays(-1);
+                return maxDate;
             }
         }
 

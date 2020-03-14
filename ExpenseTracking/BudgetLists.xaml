@@ -12,6 +12,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="LightGray" Padding="5" VerticalOptions="Center">
+            <Label x:Name="MonthYearTitle"  FontSize="Large" BackgroundColor="Blue" />
             <ListView x:Name="listView"  
               Margin="10" 
               ItemSelected="OnListViewItemSelected">
@@ -34,8 +35,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Label x:Name="Expense" TextDecorations="Underline" BackgroundColor="Accent" />
-            <Label x:Name="Budget" TextDecorations="Underline" BackgroundColor="Accent"/>
+            <Label x:Name="Expense" FontSize="Large" BackgroundColor="Blue" />
+            <Label x:Name="Budget" FontSize="Large" BackgroundColor="Blue"/>
             <Button Text="Add New" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
         </StackLayout>
     </ContentPage.Content>

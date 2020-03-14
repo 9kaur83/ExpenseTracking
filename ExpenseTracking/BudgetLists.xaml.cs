@@ -16,11 +16,17 @@ namespace ExpenseTracking
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BudgetLists : ContentPage
     {
-        public BudgetLists()
+        readonly DateTime monthYear;
+
+        public BudgetLists(DateTime monthYear)
         {
             InitializeComponent();
 
-            NavigationPage.SetHasBackButton(this, false);
+            NavigationPage.SetHasBackButton(this, true);
+
+            this.monthYear = monthYear;
+
+            MonthYearTitle.Text = $"Expense List for {monthYear.Month}-{monthYear.Year}";
         }
         
         protected override void OnAppearing()
@@ -29,7 +35,7 @@ namespace ExpenseTracking
 
             var fields = new List<ExpenseTracking.Models.Field>();
 
-            var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+            var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), monthYear.Date.Year.ToString() + monthYear.Date.Month.ToString());
 
             if (Directory.Exists(folderPath))
             {
@@ -40,7 +46,7 @@ namespace ExpenseTracking
 
                     var values = data.Split(new string[] { "\t" }, StringSplitOptions.None);
 
-                    fields.Add(new ExpenseTracking.Models.Field
+                    fields.Add(new ExpenseTracking.Models.Field(monthYear)
                     {
                         Name = values[0],
                         DateOfPurchase = DateTime.Parse(values[2]),
@@ -54,7 +60,7 @@ namespace ExpenseTracking
                 .OrderBy(d => d.DateOfPurchase)
                 .ToList();
 
-            string budgetFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".fields.txt");
+            string budgetFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), monthYear.Date.Year.ToString() + monthYear.Date.Month.ToString() + ".fields.txt");
 
             Decimal expense = 0;
             foreach(Field field in fields)
@@ -64,13 +70,13 @@ namespace ExpenseTracking
 
             Expense.Text = "Total Expenses: $" + expense.ToString();
 
-            Budget.Text = "Total Budget for Month: " + File.ReadAllText(budgetFileName);
+            Budget.Text = "Total Budget for Month: $" + File.ReadAllText(budgetFileName);
         }
        private async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
        {
             if (e.SelectedItem != null)
             {
-                await Navigation.PushAsync(new ExpenseEntryPage
+                await Navigation.PushAsync(new ExpenseEntryPage(monthYear)
                 {
                     BindingContext = e.SelectedItem as ExpenseTracking.Models.Field
                 });
@@ -79,24 +85,20 @@ namespace ExpenseTracking
 
         private async void OnExpenseListAddedClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ExpenseEntryPage
+            await Navigation.PushAsync(new ExpenseEntryPage(monthYear)
             {
-                BindingContext = new ExpenseTracking.Models.Field()
+                BindingContext = new ExpenseTracking.Models.Field(monthYear)
             });
-
-            //await Navigation.PushAsync(new ExpenseEntryPage());
         }
 
         private async void NavigateButton_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ExpenseEntryPage
+            await Navigation.PushAsync(new ExpenseEntryPage(monthYear)
             {
-                BindingContext = new ExpenseTracking.Models.Field()
+                BindingContext = new ExpenseTracking.Models.Field(monthYear)
             });
 
-             await Navigation.PushAsync(new ExpenseEntryPage());
-
+            //await Navigation.PushAsync(new ExpenseEntryPage());
         }
-
     }
 }

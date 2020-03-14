@@ -20,9 +20,18 @@ namespace ExpenseTracking
         {
             InitializeComponent();
 
+            RefreshBudget();
+        }
+
+        private void RefreshBudget()
+        {
             if (File.Exists(filename))
             {
                 budgetInputField.Text = File.ReadAllText(filename);
+            }
+            else
+            {
+                budgetInputField.Text = String.Empty;
             }
         }
 
@@ -35,7 +44,13 @@ namespace ExpenseTracking
 
         private async Task NavigateToNextPage()
         {
-            await Navigation.PushAsync(new BudgetLists(), true);
+            await Navigation.PushAsync(new BudgetLists(monthYear.Date), true);
+        }
+
+        private void monthYear_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), monthYear.Date.Year.ToString() + monthYear.Date.Month.ToString() + ".fields.txt");
+            RefreshBudget();
         }
     }
 }
