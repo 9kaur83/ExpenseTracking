@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Reflection;
+using Xamarin.Forms;
 
 namespace ExpenseTracking.Models
 {
@@ -33,9 +33,28 @@ namespace ExpenseTracking.Models
             this.MonthYear = monthYear;
         }
 
+        public string FilePath { get; set; }
+
         public string Name { get; set; }
         public DateTime MonthYear { get; }
         public decimal Amount { get; set; }
+
+        public ImageSource itemTypeImage
+        {
+            get
+            {
+                /*var assembly = typeof(ExpenseTracking.Models.Field).GetTypeInfo().Assembly;
+                foreach (var res in assembly.GetManifestResourceNames())
+                {
+                    System.Diagnostics.Debug.WriteLine("found resource: " + res);
+                }*/
+
+                var Source = ImageSource.FromResource("ExpenseTracking.Assets." + itemType.ToString() + ".png",
+                    typeof(ExpenseTracking.Models.Field).GetTypeInfo().Assembly);
+
+                return Source;
+            }
+        }
 
         public string DateOfPurchaseString
         {

@@ -47,7 +47,7 @@ namespace ExpenseTracking
 
                 Directory.CreateDirectory(folderPath);
 
-                var filename =Path.Combine(folderPath, $"{Path.GetRandomFileName()}.field.txt");
+                var filename = string.IsNullOrWhiteSpace(field.FilePath) ? Path.Combine(folderPath, $"{Path.GetRandomFileName()}.field.txt") : field.FilePath;
 
                 string data = field.Name + "\t" + field.Amount.ToString() + "\t" + field.DateOfPurchase.ToString() + "\t" + field.selectedType;
 

@@ -46,13 +46,22 @@ namespace ExpenseTracking
 
                     var values = data.Split(new string[] { "\t" }, StringSplitOptions.None);
 
-                    fields.Add(new ExpenseTracking.Models.Field(monthYear)
+                    try
                     {
-                        Name = values[0],
-                        DateOfPurchase = DateTime.Parse(values[2]),
-                        Amount = Decimal.Parse(values[1]),
-                        itemType = (TypeOfItem)Enum.Parse(typeof(TypeOfItem), values[3])
-                    });
+                        fields.Add(new ExpenseTracking.Models.Field(monthYear)
+                        {
+                            FilePath = filename,
+                            Name = values[0],
+                            DateOfPurchase = DateTime.Parse(values[2]),
+                            Amount = Decimal.Parse(values[1]),
+                            itemType = (TypeOfItem)Enum.Parse(typeof(TypeOfItem), values[3]),
+                            selectedType = values[3]
+                        });
+                    }
+                    catch(Exception e)
+                    {
+                        File.Delete(filename);
+                    }
                 }
             }
 
